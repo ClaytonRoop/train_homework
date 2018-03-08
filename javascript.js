@@ -43,6 +43,16 @@ $(".submitbutton").on("click", function (event) {
     $('.form-control').val('');
 });
 
+function deleteRow () {
+
+    $(this).parents('tr').first().remove();
+
+}
+
+
+
+
+
 database.ref().orderByChild("dateAdded").limitToLast(15).on("child_added", function (snapshot) {
     // storing the snapshot.val() in a variable for convenience
     var sv = snapshot.val();
@@ -97,12 +107,20 @@ database.ref().orderByChild("dateAdded").limitToLast(15).on("child_added", funct
     console.log("ARRIVAL TIME: " + moment(nextArrival).format("hh:mm"));
     var printnextArrival = moment(nextArrival).format("hh:mm");
 
+    // var removeButton = $("<button>").attr("class", "removeButton").text("Remove");
 
+    var removeButton =  $("<button>");
 
-    $('#tablebody').append('<tr class="child"><td> ' + trainName + ' </td><td> ' + destination + ' </td><td> ' + frequency + ' </td><td> ' + printnextArrival + ' </td><td> ' +  minutesAway + '</td></tr>');
+       
+
+    $('#tablebody').append('<tr class="child"><td> ' + trainName + ' </td><td> ' + destination + ' </td><td> ' + frequency + ' </td><td> ' + printnextArrival + ' </td><td> ' + minutesAway + '</td><td><button class="delete" data-key="test"</button> Delete </td></tr>');
+    
 
 
     // Handle the errors
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
+
+$(document).on("click", ".delete", deleteRow);
+
